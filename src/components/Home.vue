@@ -18,14 +18,14 @@
 
     computed: {
       fetch () {
-        const url = '/json/payments.json';
+        const path = 'payments';
         const cast = {
           date: Date,
         };
 
         return {
-          url,
           cast,
+          path,
         };
       },
     },

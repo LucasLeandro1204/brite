@@ -5,6 +5,8 @@
 </template>
 
 <script>
+  import API from '@/api';
+
   /**
    * Data must be an array of objects.
    */
@@ -42,7 +44,7 @@
 
   export default {
     props: {
-      url: {
+      path: {
         type: String,
         required: true,
       },
@@ -93,24 +95,13 @@
             page: this.page,
           },
           SET_PAGE: this.SET_PAGE,
+          REFETCH: this.FETCH,
         };
       },
     },
 
     created () {
-      fetch(this.url)
-        .then(response => response.json())
-        .then(validate)
-        .then(cast(this.cast))
-        .then((data) => {
-          this.raw = data;
-        })
-        .catch((error) => {
-          console.error(error);
-
-          this.error = true;
-        })
-        .finally(() => this.loading = false);
+      this.FETCH();
     },
 
     methods: {
@@ -124,6 +115,21 @@
         }
 
         this.page = page;
+      },
+
+      FETCH () {
+        return API.get(this.path)
+          .then(validate)
+          .then(cast(this.cast))
+          .then((data) => {
+            this.raw = data;
+          })
+          .catch((error) => {
+            console.error(error);
+
+            this.error = true;
+          })
+          .finally(() => this.loading = false);
       },
     },
   };
