@@ -184,10 +184,13 @@
       indexes () {
         const indexes = [];
 
+        /**
+         * Searchable by default.
+         */
         for (const key in this.fields) {
           const searchable = this.fields[key].searchable;
 
-          if (searchable) {
+          if (typeof searchable === 'undefined' || searchable) {
             indexes.push(key);
           }
         }
