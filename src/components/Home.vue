@@ -1,9 +1,15 @@
 <template>
   <JsonFetch
-    v-bind="fetch"
+    v-bind="{
+      path,
+      fields,
+      search,
+    }"
     >
     <template slot-scope="scope">
-      {{ scope }}
+      {{ scope.data.map(a => a.name) }}
+
+      <input class="border" v-model="search">
     </template>
   </JsonFetch>
 </template>
@@ -16,17 +22,34 @@
       JsonFetch,
     },
 
-    computed: {
-      fetch () {
-        const path = 'payments';
-        const cast = {
-          date: Date,
-        };
+    data: () => ({
+      search: '',
+    }),
 
+    computed: {
+      fields () {
         return {
-          cast,
-          path,
+          date: {
+            cast: Date,
+            sortable: true,
+          },
+          id: {
+            searchable: true,
+          },
+          name: {
+            searchable: true,
+          },
+          description: {
+            searchable: true,
+          },
+          amount: {
+            searchable: true,
+          },
         };
+      },
+
+      path () {
+        return 'payments';
       },
     },
   };
