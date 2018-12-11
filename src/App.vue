@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="font-sans bg-grey-lightest min-h-screen" id="app">
     <Home />
   </div>
 </template>

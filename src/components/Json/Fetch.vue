@@ -148,7 +148,7 @@
       ordered () {
         const field = this.fields[this.field] || {};
 
-        return sort(this.filtered, this.field, field.type || String, this.order);
+        return sort(this.filtered, this.field, field.type || field || String, this.order);
       },
 
       /**
@@ -168,9 +168,13 @@
         const cast = {};
 
         for (const key in this.fields) {
-          const type = this.fields[key].type;
+          const type = this.fields[key].type || this.fields[key];
 
-          if (type) {
+          /**
+           * String is the default type.
+           * So we do not have to cast a string as string.
+           */
+          if (type && type !== String) {
             cast[key] = type;
           }
         }
