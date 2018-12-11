@@ -18,13 +18,20 @@ const get = async path => {
  */
 const update = async (path, id, attributes, key = 'id') => {
   const data = cache.get(path);
-  const entity = data.find(entity => entity[key] === id);
+  const index = data.findIndex(entity => entity[key] === id);
 
-  if (! entity) {
+  if (index == -1) {
     throw new Error('Entity not found');
   }
 
-  return entity;
+  /**
+   * Hack to prevent updating ID.
+   */
+  attributes[key] = id;
+
+  data[index] = Object.assign({}, data[index], attributes);
+
+  return data[index];
 };
 
 export default {
