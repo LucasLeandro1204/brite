@@ -4,10 +4,12 @@
       path,
       fields,
       search,
+      field,
+      order,
     }"
     >
     <template slot-scope="scope">
-      {{ scope.data.map(a => a.name) }}
+      <span v-for="({ date }) in scope.data">{{ date }}<br></span>
 
       <input class="border" v-model="search">
     </template>
@@ -24,14 +26,15 @@
 
     data: () => ({
       search: '',
+      field: 'date',
+      order: 'desc',
     }),
 
     computed: {
       fields () {
         return {
           date: {
-            cast: Date,
-            sortable: true,
+            type: Date,
           },
           id: {
             searchable: true,

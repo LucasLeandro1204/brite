@@ -9,6 +9,29 @@
   import { Search } from 'js-search';
 
   /**
+   * Sort array.
+   *
+   * @todo use something like https://github.com/jherax/array-sort-by
+   */
+  export const sort = (data, field, type = String, order = 'desc') => {
+    if (type == Date) {
+      const multiplier = order == 'desc' ? -1 : 1;
+      const greather = 1 * multiplier;
+      const less = -1 * multiplier;
+
+      return data.sort((a, b) => a[field].getTime() > b[field].getTime() ? greather : less);
+    }
+
+    const sorted = data.sort();
+
+    if (order == 'desc') {
+      return sorted.reverse();
+    }
+
+    return sorted;
+  };
+
+  /**
    * Create searcher.
    */
   export const searcher = (key, indexes, documents) => {
@@ -81,6 +104,17 @@
         default: 'id',
       },
 
+      field: {
+        type: String,
+        required: true,
+      },
+
+      order: {
+        type: String,
+        required: true,
+        validate: order => ['asc', 'desc'].indexOf(order) !== -1,
+      },
+
       search: {
         type: String,
         required: false,
@@ -112,7 +146,9 @@
        * Order documents filtered.
        */
       ordered () {
-        return this.filtered;
+        const field = this.fields[this.field] || {};
+
+        return sort(this.filtered, this.field, field.type || String, this.order);
       },
 
       /**
@@ -132,7 +168,7 @@
         const cast = {};
 
         for (const key in this.fields) {
-          const type = this.fields[key].cast;
+          const type = this.fields[key].type;
 
           if (type) {
             cast[key] = type;
