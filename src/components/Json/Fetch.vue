@@ -201,6 +201,7 @@
           error: this.error,
           loading: this.loading,
           REFETCH: this.FETCH,
+          INDEX: this.INDEX,
         };
       },
     },

@@ -24,7 +24,7 @@
               current_page,
             }">
 
-            <template slot="date" slot-scope="{ value, loading }">
+            <template slot="date" slot-scope="{ value }">
               {{ value.toLocaleDateString() }}
             </template>
           </DataTable>
@@ -45,6 +45,7 @@
 <script>
   import DataTable from './Data/Table';
   import JsonFetch from './Json/Fetch';
+  import JsonUpdate from './Json/Update';
   import Pagination from '@/components/Pagination';
 
   export default {
@@ -52,6 +53,7 @@
       DataTable,
       JsonFetch,
       Pagination,
+      JsonUpdate,
     },
 
     data: () => ({
@@ -95,6 +97,12 @@
           'date',
           'amount',
         ];
+      },
+    },
+
+    watch: {
+      search () {
+        this.SET_PAGE(1);
       },
     },
 
