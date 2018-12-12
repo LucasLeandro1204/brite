@@ -15,7 +15,7 @@
         }"
         >
 
-        <template slot-scope="{ data }">
+        <template slot-scope="{ data, meta, SET_PAGE }">
           <DataTable
             :columns="columns"
             :data="data">
@@ -24,6 +24,10 @@
               {{ value.toLocaleDateString() }}
             </template>
           </DataTable>
+
+          {{ meta }}
+
+          <Pagination @paginate="SET_PAGE" v-bind="meta" />
         </template>
       </JsonFetch>
     </div>
@@ -33,11 +37,13 @@
 <script>
   import DataTable from './Data/Table';
   import JsonFetch from './Json/Fetch';
+  import Pagination from '@/components/Pagination';
 
   export default {
     components: {
       DataTable,
       JsonFetch,
+      Pagination,
     },
 
     data: () => ({

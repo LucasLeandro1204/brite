@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex" :key="row[id]" v-for="row in data">
-      <div :style="{ width: size }"  v-for="(size, column) in columns">
+      <div :class="classes"  v-for="(classes, column) in columns">
         <slot :name="column" :value="row[column]">
           {{ row[column] }}
         </slot>

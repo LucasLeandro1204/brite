@@ -216,7 +216,7 @@
           meta: {
             total,
             last_page,
-            page: this.page,
+            current_page: this.page,
           },
           SET_PAGE: this.SET_PAGE,
           REFETCH: this.FETCH,
