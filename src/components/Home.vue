@@ -1,44 +1,45 @@
 <template>
-  <div class="p-8">
-    <h1 class="font-thin mb-3">Payments</h1>
+  <div class="p-8 max-w-2xl mx-auto">
+    <header class="mb-3">
+      <h1 class="font-thin mb-3">Payments</h1>
 
-    <input class="border" v-model="search">
+      <input class="border" v-model="search">
+    </header>
 
-    <div class="bg-white p-8">
-      <JsonFetch
-        v-bind="{
-          path,
-          fields,
-          search,
-          field,
-          order,
-        }"
-        >
+    <JsonFetch
+      v-bind="{
+        path,
+        fields,
+        search,
+        field,
+        order,
+      }"
+      >
 
-        <template slot-scope="{ data, loading }">
-          <DataTable
-            v-bind="{
-              data,
-              columns,
-              per_page,
-              current_page,
-            }">
+      <template slot-scope="{ data, loading }">
+        <DataTable
+          class="bg-white rounded-lg shadow"
+          v-bind="{
+            data,
+            columns,
+            per_page,
+            current_page,
+          }">
 
-            <template slot="date" slot-scope="{ value }">
-              {{ value.toLocaleDateString() }}
-            </template>
-          </DataTable>
+          <template slot="date" slot-scope="{ value }">
+            {{ value.toLocaleDateString() }}
+          </template>
+        </DataTable>
 
-          <Pagination
-            @paginate="page => SET_PAGE(page, loading)"
-            v-bind="{
-              per_page,
-              current_page,
-              total: data.length,
-            }" />
-        </template>
-      </JsonFetch>
-    </div>
+        <Pagination
+          @paginate="page => SET_PAGE(page, loading)"
+          v-bind="{
+            per_page,
+            current_page,
+            total: data.length,
+          }" />
+      </template>
+    </JsonFetch>
   </div>
 </template>
 
@@ -82,20 +83,32 @@
       },
 
       columns () {
-        return {
-          id: '20%',
-          name: '20%',
-          description: '20%',
-          date: '10%',
-          amount: '10%',
-        };
-
         return [
-          'id',
-          'name',
-          'description',
-          'date',
-          'amount',
+          {
+            key: 'id',
+            label: 'ID',
+            width: '30%',
+          },
+          {
+            key: 'name',
+            label: 'NAME',
+            width: '15%',
+          },
+          {
+            key: 'description',
+            label: 'DESCRIPTION',
+            width: '35%',
+          },
+          {
+            key: 'date',
+            label: 'DATE',
+            width: '10%',
+          },
+          {
+            key: 'amount',
+            label: 'AMOUNT',
+            width: '10%',
+          },
         ];
       },
     },
