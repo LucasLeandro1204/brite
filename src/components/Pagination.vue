@@ -34,18 +34,18 @@
         required: true,
       },
 
-      last_page: {
+      per_page: {
         type: Number,
         required: true,
       },
 
-        type: Number,
       current_page: {
+        type: Number,
         required: true,
       },
 
-        type: Number,
       limit: {
+        type: Number,
         default: 3,
       },
 
@@ -56,6 +56,10 @@
     },
 
     computed: {
+      last_page () {
+        return Math.floor((this.total + (this.per_page - 1)) / this.per_page)
+      },
+
       /**
        * Too complex to comment.
        * Sorry.

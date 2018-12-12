@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="flex" :key="row[id]" v-for="row in data">
-      <div :class="classes"  v-for="(classes, column) in columns">
+    <div class="flex" :key="row[id]" v-for="row in chunk">
+      <div :class="classes" :key="column" v-for="(classes, column) in columns">
         <slot :name="column" :value="row[column]">
           {{ row[column] }}
         </slot>
@@ -28,6 +28,28 @@
         type: String,
         required: false,
         default: 'id',
+      },
+
+      current_page: {
+        type: Number,
+        required: true,
+      },
+
+      per_page: {
+        type: Number,
+        required: true,
+      },
+    },
+
+    computed: {
+      /**
+       * Get the current page data.
+       */
+      chunk () {
+        return this.data.slice(
+          this.per_page * (this.current_page - 1),
+          this.per_page * this.current_page
+        );
       },
     },
   };

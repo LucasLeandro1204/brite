@@ -15,19 +15,27 @@
         }"
         >
 
-        <template slot-scope="{ data, meta, SET_PAGE }">
+        <template slot-scope="{ data, loading }">
           <DataTable
-            :columns="columns"
-            :data="data">
+            v-bind="{
+              data,
+              columns,
+              per_page,
+              current_page,
+            }">
 
-            <template slot="date" slot-scope="{ value }">
+            <template slot="date" slot-scope="{ value, loading }">
               {{ value.toLocaleDateString() }}
             </template>
           </DataTable>
 
-          {{ meta }}
-
-          <Pagination @paginate="SET_PAGE" v-bind="meta" />
+          <Pagination
+            @paginate="page => SET_PAGE(page, loading)"
+            v-bind="{
+              per_page,
+              current_page,
+              total: data.length,
+            }" />
         </template>
       </JsonFetch>
     </div>
@@ -50,6 +58,8 @@
       search: '',
       field: 'date',
       order: 'desc',
+      current_page: 1,
+      per_page: 15,
     }),
 
     computed: {
@@ -85,6 +95,16 @@
           'date',
           'amount',
         ];
+      },
+    },
+
+    methods: {
+      SET_PAGE (page, loading) {
+        if (loading) {
+          return;
+        }
+
+        this.current_page = page;
       },
     },
   };

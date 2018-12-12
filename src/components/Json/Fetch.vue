@@ -152,16 +152,6 @@
       },
 
       /**
-       * Get the current page data.
-       */
-      chunk () {
-        return this.ordered.slice(
-          this.perPage * (this.page - 1),
-          this.perPage * this.page
-        );
-      },
-
-      /**
        * Attributes to cast.
        */
       cast () {
@@ -206,19 +196,10 @@
        * Slot bindings.
        */
       slot () {
-        const total = this.filtered.length;
-        const last_page = Math.floor((total + (this.perPage - 1)) / this.perPage);
-
         return {
-          data: this.chunk,
+          data: this.ordered,
           error: this.error,
           loading: this.loading,
-          meta: {
-            total,
-            last_page,
-            current_page: this.page,
-          },
-          SET_PAGE: this.SET_PAGE,
           REFETCH: this.FETCH,
         };
       },
@@ -229,18 +210,6 @@
     },
 
     methods: {
-      SET_PAGE (page) {
-        if (! Number.isInteger(page)) {
-          throw new Error('Page should be an integer');
-        }
-
-        if (this.loading) {
-          return;
-        }
-
-        this.page = page;
-      },
-
       FETCH () {
         if (this.loading) {
           return Promise.resolve();
