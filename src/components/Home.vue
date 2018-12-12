@@ -1,9 +1,9 @@
 <template>
   <div class="p-8 max-w-2xl mx-auto">
-    <header class="mb-3">
-      <h1 class="font-thin mb-3">Payments</h1>
+    <header class="mb-3 flex items-center">
+      <h1 class="font-thin">Payments</h1>
 
-      <input class="border" v-model="search">
+      <input class="rounded border-grey-light ml-4 py-1 px-2 border-2" placeholder="Search data" v-model="search">
     </header>
 
     <JsonFetch
@@ -11,8 +11,7 @@
         path,
         fields,
         search,
-        field,
-        order,
+        sort,
       }"
       >
 
@@ -21,9 +20,9 @@
           class="bg-white rounded-lg shadow"
           v-bind="{
             data,
-            columns,
             per_page,
             current_page,
+            columns: fields,
           }">
 
           <template slot="date" slot-scope="{ value }">
@@ -59,30 +58,20 @@
 
     data: () => ({
       search: '',
-      field: 'date',
-      order: 'desc',
+      sort: {
+        field: 'date',
+        order: 'desc',
+      },
       current_page: 1,
       per_page: 15,
     }),
 
     computed: {
-      fields () {
-        return {
-          date: {
-            type: Date,
-            searchable: false,
-          },
-          name: String,
-          description: String,
-          amount: String,
-        };
-      },
-
       path () {
         return 'payments';
       },
 
-      columns () {
+      fields () {
         return [
           {
             key: 'id',
@@ -100,9 +89,11 @@
             width: '35%',
           },
           {
+            type: Date,
             key: 'date',
             label: 'DATE',
             width: '10%',
+            searchable: false,
           },
           {
             key: 'amount',

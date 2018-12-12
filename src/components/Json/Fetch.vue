@@ -87,9 +87,8 @@
       },
 
       fields: {
-        type: Object,
-        required: false,
-        default: () => ({}),
+        type: Array,
+        required: true,
       },
 
       perPage: {
@@ -104,15 +103,14 @@
         default: 'id',
       },
 
-      field: {
-        type: String,
+      sort: {
+        type: Object,
         required: true,
-      },
-
-      order: {
-        type: String,
-        required: true,
-        validate: order => ['asc', 'desc'].indexOf(order) !== -1,
+        validate ({ field, order }) {
+          return typeof field === 'String'
+            && field
+            && ['asc', 'desc'].indexOf(order) !== -1;
+        },
       },
 
       search: {
@@ -143,12 +141,23 @@
       },
 
       /**
+       * Fields as key => value.
+       */
+      fieldsKeyed () {
+        return this.fields.reduce((fields, field) => {
+          fields[field.key] = field;
+
+          return fields;
+        }, {});
+      },
+
+      /**
        * Order documents filtered.
        */
       ordered () {
-        const field = this.fields[this.field] || {};
+        const field = this.fieldsKeyed[this.sort.field] || {};
 
-        return sort(this.filtered, this.field, field.type || field || String, this.order);
+        return sort(this.filtered, this.sort.field, field.type || field || String, this.sort.order);
       },
 
       /**
@@ -157,15 +166,15 @@
       cast () {
         const cast = {};
 
-        for (const key in this.fields) {
-          const type = this.fields[key].type || this.fields[key];
+        for (const field of this.fields) {
+          const type = field.type;
 
           /**
            * String is the default type.
            * So we do not have to cast a string as string.
            */
           if (type && type !== String) {
-            cast[key] = type;
+            cast[field.key] = type;
           }
         }
 
@@ -181,11 +190,11 @@
         /**
          * Searchable by default.
          */
-        for (const key in this.fields) {
-          const searchable = this.fields[key].searchable;
+        for (const field of this.fields) {
+          const searchable = field.searchable;
 
           if (typeof searchable === 'undefined' || searchable) {
-            indexes.push(key);
+            indexes.push(field.key);
           }
         }
 
