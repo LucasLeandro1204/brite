@@ -31,17 +31,7 @@
             <span class="px-6 py-2" v-text="value.toLocaleDateString()"></span>
           </template>
 
-          <template slot="amount" slot-scope="{ value }">
-            <span
-              class="flex text-xs font-bold">
-              <span
-                class="mx-auto px-2 py-1 rounded-full"
-                :class="value > 0 ? 'bg-green-lightest text-green-dark' : 'bg-red-lightest text-red-dark'"
-                v-text="value">
-
-                </span>
-              </span>
-          </template>
+          <FieldPrice v-bind="scope" slot="amount" slot-scope="scope" />
         </DataTable>
 
         <Pagination
@@ -62,6 +52,7 @@
   import JsonFetch from './Json/Fetch';
   import Pagination from './Pagination';
   import JsonUpdate from './Json/Update';
+  import FieldPrice from './Field/Price';
 
   export default {
     components: {
@@ -69,6 +60,7 @@
       JsonFetch,
       Pagination,
       JsonUpdate,
+      FieldPrice,
     },
 
     data: () => ({
