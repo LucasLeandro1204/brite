@@ -4,11 +4,23 @@
       <thead>
         <tr>
           <th
-            :width="column.width"
-            :key="column.key"
-            v-text="column.label"
-            class="px-6 py-4 border-b text-grey-dark text-sm"
-            v-for="column in columns">
+            :width="width"
+            :key="key"
+            class="px-6 py-4 border-b text-sm text-grey-dark"
+            v-for="({ key, width, sortable, label }) in columns">
+
+            <a
+              href='#'
+              v-if="sortable"
+              @click.prevent="toggleSort(key)"
+              class="text-grey-darkest">
+              {{ label }}
+              <span v-if="sort.field == key" v-text="sort.order === 'desc' ? 'down' : 'up'"></span>
+            </a>
+
+            <template v-else>
+              {{ label }}
+            </template>
           </th>
         </tr>
       </thead>
@@ -17,11 +29,10 @@
           <td
             :width="column.width"
             :key="column.key + row[id]"
-            class="px-6 py-3"
             v-for="column in columns">
 
             <slot :name="column.key" :value="row[column.key]">
-              {{ row[column.key] }}
+              <span class="px-6 py-2 block" v-text="row[column.key]"></span>
             </slot>
           </td>
         </tr>
@@ -31,6 +42,8 @@
 </template>
 
 <script>
+  import Orders from '@/core/orders';
+
   export default {
     props: {
       columns: {
@@ -44,6 +57,16 @@
       data: {
         type: Array,
         required: true,
+      },
+
+      sort: {
+        type: Object,
+        required: true,
+        validate ({ field, order }) {
+          return field
+            && typeof field === 'String'
+            && Orders.has(order);
+        },
       },
 
       id: {
@@ -72,6 +95,17 @@
           this.per_page * (this.current_page - 1),
           this.per_page * this.current_page
         );
+      },
+    },
+
+    methods: {
+      toggleSort (field) {
+        this.$emit('sort', {
+          field,
+          order: field === this.sort.field
+            ? Orders.get(this.sort.order)
+            : 'desc',
+        });
       },
     },
   };

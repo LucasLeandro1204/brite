@@ -1,6 +1,6 @@
 <template>
-  <div class="p-8 max-w-2xl mx-auto">
-    <header class="mb-3 flex items-center">
+  <div class="px-8 py-4 max-w-2xl mx-auto">
+    <header class="mb-4 flex items-center">
       <h1 class="font-thin">Payments</h1>
 
       <input class="rounded border-grey-light ml-4 py-1 px-2 border-2" placeholder="Search data" v-model="search">
@@ -17,9 +17,11 @@
 
       <template slot-scope="{ data, loading }">
         <DataTable
+          @sort="sort => SET_SORT(sort, loading)"
           class="bg-white rounded-lg shadow"
           v-bind="{
             data,
+            sort,
             per_page,
             current_page,
             columns: fields,
@@ -91,14 +93,17 @@
           {
             type: Date,
             key: 'date',
-            label: 'DATE',
             width: '10%',
+            label: 'DATE',
+            sortable: true,
             searchable: false,
           },
           {
             key: 'amount',
             label: 'AMOUNT',
             width: '10%',
+            sortable: true,
+            type: Number,
           },
         ];
       },
@@ -117,6 +122,14 @@
         }
 
         this.current_page = page;
+      },
+
+      SET_SORT (sort, loading) {
+        if (loading) {
+          return;
+        }
+
+        this.sort = sort;
       },
     },
   };

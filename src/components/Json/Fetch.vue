@@ -5,8 +5,9 @@
 </template>
 
 <script>
-  import API from '@/api';
+  import API from '@/core/api';
   import { Search } from 'js-search';
+  import Orders from '@/core/orders';
 
   /**
    * Sort array.
@@ -14,12 +15,10 @@
    * @todo use something like https://github.com/jherax/array-sort-by
    */
   export const sort = (data, field, type = String, order = 'desc') => {
-    if (type == Date) {
+    if (type == Date || type == Number) {
       const multiplier = order == 'desc' ? -1 : 1;
-      const greather = 1 * multiplier;
-      const less = -1 * multiplier;
 
-      return data.sort((a, b) => a[field].getTime() > b[field].getTime() ? greather : less);
+      return data.sort((a, b) => (a[field] > b[field] ? 1 : -1) * multiplier);
     }
 
     const sorted = data.sort();
@@ -107,9 +106,9 @@
         type: Object,
         required: true,
         validate ({ field, order }) {
-          return typeof field === 'String'
-            && field
-            && ['asc', 'desc'].indexOf(order) !== -1;
+          return field
+            && typeof field === 'String'
+            && Orders.has(order);
         },
       },
 
@@ -155,6 +154,13 @@
        * Order documents filtered.
        */
       ordered () {
+        /**
+         * Sort order maybe null.
+         */
+        if (this.sort.order === null) {
+          return this.filtered;
+        }
+
         const field = this.fieldsKeyed[this.sort.field] || {};
 
         return sort(this.filtered, this.sort.field, field.type || field || String, this.sort.order);
