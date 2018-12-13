@@ -13,6 +13,7 @@
         path="payments"
         :fields="fields"
         :search="search"
+        @reset="search = ''"
         />
     </main>
   </div>

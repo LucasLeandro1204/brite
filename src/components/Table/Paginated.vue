@@ -32,6 +32,19 @@
         </TableBase>
       </JsonUpdate>
 
+      <div v-if="data.length < 1" class="flex flex-col md:flex-row mx-auto max-w-lg items-start mt-10">
+        <img class="w-full md:w-1/2" src="@/assets/empty.svg">
+
+        <div class="self-center text-center mt-10 md:mt-0 md:text-left md:ml-auto">
+          <h2 class="text-4xl">Ooooppps....</h2>
+          <p style="word-break: break-word" class="mt-4 text-lg max-w-xs">We can't find anything related to <span class="text-blue" v-text="search"></span></p>
+
+          <button @click.prevent="$emit('reset')" class="bg-blue text-white px-4 py-2 rounded mt-8">
+            Clear your search
+          </button>
+        </div>
+      </div>
+
       <Pagination
         class="mt-4"
         @paginate="page => SET_PAGE(page, loading)"
