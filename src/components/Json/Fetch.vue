@@ -1,9 +1,3 @@
-<template>
-  <div>
-    <slot v-bind="slot"></slot>
-  </div>
-</template>
-
 <script>
   import API from '@/core/api';
   import { Search } from 'js-search';
@@ -117,6 +111,10 @@
         required: false,
         default: '',
       },
+    },
+
+    render () {
+      return this.$scopedSlots.default(this.slot);
     },
 
     data: () => ({
@@ -261,6 +259,8 @@
         if (this.searcher) {
           this.searcher.addDocument(document);
         }
+
+        this.FETCH();
       },
     },
   };

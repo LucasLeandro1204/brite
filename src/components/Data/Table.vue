@@ -6,7 +6,7 @@
           <th
             :width="width"
             :key="key"
-            class="px-6 py-4 border-b text-sm text-grey-dark"
+            class="px-6 py-4 border-b text-grey-dark"
             v-for="({ key, width, sortable, label }) in columns">
 
             <a
@@ -32,7 +32,7 @@
             :key="column.key + row[id]"
             v-for="column in columns">
 
-            <slot :name="column.key" :value="row[column.key]">
+            <slot :name="column.key" :value="row[column.key]" :row="row">
               <span class="px-6 py-2 block" v-text="row[column.key]"></span>
             </slot>
           </td>

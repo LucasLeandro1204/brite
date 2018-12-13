@@ -9,25 +9,23 @@ const get = async path => {
   }
 
   const response = await fetch(`/json/${path}.json`);
+  const json = await response.json();
 
-  return response.json();
+  cache.set(path, json);
+
+  return json;
 };
 
 /**
  * Update in memory cache data.
  */
-const update = async (path, id, attributes, key = 'id') => {
+const update = async (path, attributes, key) => {
   const data = cache.get(path);
-  const index = data.findIndex(entity => entity[key] === id);
+  const index = data.findIndex(entity => entity[key] === attributes[key]);
 
   if (index == -1) {
     throw new Error('Entity not found');
   }
-
-  /**
-   * Hack to prevent updating ID.
-   */
-  attributes[key] = id;
 
   data[index] = Object.assign({}, data[index], attributes);
 
