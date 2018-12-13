@@ -21,6 +21,7 @@
       </li>
       <li
         :key="page + index"
+        class="hidden sm:block"
         v-for="(page, index) in pages">
 
         <a
