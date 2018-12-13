@@ -32,7 +32,7 @@
         </TableBase>
       </JsonUpdate>
 
-      <div v-if="data.length < 1" class="flex flex-col md:flex-row mx-auto max-w-lg items-start mt-10">
+      <div v-if="! loading && data.length < 1" class="flex flex-col md:flex-row mx-auto max-w-lg items-start mt-10">
         <img class="w-full md:w-1/2" src="@/assets/empty.svg">
 
         <div class="self-center text-center mt-10 md:mt-0 md:text-left md:ml-auto">
