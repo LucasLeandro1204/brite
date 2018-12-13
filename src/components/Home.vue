@@ -1,9 +1,9 @@
 <template>
   <div class="px-8 py-4 max-w-2xl mx-auto">
-    <header class="mb-4 flex items-center">
-      <h1 class="font-thin">Payments</h1>
+    <header class="mb-4 flex flex-col sm:flex-row sm:items-center">
+      <h1 class="font-thin mb-2 sm:mb-0">Payments</h1>
 
-      <input class="rounded border-grey-light ml-4 py-1 px-2 border-2" placeholder="Search data" v-model="search">
+      <input class="rounded border-grey-light sm:ml-4 py-1 px-2 border-2" placeholder="Search data" v-model="search">
     </header>
 
     <JsonFetch
@@ -33,6 +33,7 @@
         </DataTable>
 
         <Pagination
+          class="mt-4"
           @paginate="page => SET_PAGE(page, loading)"
           v-bind="{
             per_page,
@@ -65,7 +66,7 @@
         order: 'desc',
       },
       current_page: 1,
-      per_page: 15,
+      per_page: 10,
     }),
 
     computed: {

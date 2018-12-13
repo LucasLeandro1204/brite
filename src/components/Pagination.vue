@@ -1,25 +1,33 @@
 <template>
   <nav v-if="last_page > 1">
-
-    <a
-      href="#"
-      @click.prevent="go(current_page - 1)">
-       <
-    </a>
-
-    <a
-      href="#"
-      @click.prevent="go(current_page + 1)">
-       >
-    </a>
-
-    <ul>
+    <ul class="list-reset flex">
       <li>
         <a
           href="#"
-          :key="page + index"
+          class="btn"
+          :class="{ 'btn-disabled': current_page <= 1 }"
+          @click.prevent="go(current_page - 1)">
+          <
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          class="btn mr-12"
+          :class="{ 'btn-disabled': current_page >= last_page }"
+          @click.prevent="go(current_page + 1)">
+          >
+        </a>
+      </li>
+      <li
+        :key="page + index"
+        v-for="(page, index) in pages">
+
+        <a
+          href="#"
+          class="btn"
+          :class="{ 'btn-disabled': page == '...', 'btn-active': page == current_page }"
           @click.prevent="go(page)"
-          v-for="(page, index) in pages"
           v-text="page"></a>
       </li>
     </ul>
@@ -109,7 +117,7 @@
 
     methods: {
       go (page) {
-        if (page == this.current_page || page == '...') {
+        if (page == '...' || page < 1 || page > this.last_page) {
           return;
         }
 
@@ -118,3 +126,17 @@
     },
   };
 </script>
+
+<style lang="postcss">
+  .btn {
+    @apply w-8 h-8 flex items-center justify-center bg-white mr-2 rounded text-black
+  }
+
+  .btn-disabled {
+    @apply cursor-default bg-grey-lighter
+  }
+
+  .btn-active {
+    @apply bg-blue-lighter text-blue-darker
+  }
+</style>
