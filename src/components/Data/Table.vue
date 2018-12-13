@@ -13,9 +13,10 @@
               href='#'
               v-if="sortable"
               @click.prevent="toggleSort(key)"
-              class="text-grey-darkest">
-              {{ label }}
-              <span v-if="sort.field == key" v-text="sort.order === 'desc' ? 'down' : 'up'"></span>
+              class="text-grey-darkest flex self-center">
+                {{ label }}
+
+                <IconArrow class="self-start ml-2" v-if="sort.field == key" :flip="sort.order === 'asc'" />
             </a>
 
             <template v-else>
@@ -43,8 +44,13 @@
 
 <script>
   import Orders from '@/core/orders';
+  import IconArrow from '@/components/Icon/Arrow';
 
   export default {
+    components: {
+      IconArrow,
+    },
+
     props: {
       columns: {
         type: Array,

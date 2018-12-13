@@ -36,7 +36,7 @@
               class="flex text-xs font-bold">
               <span
                 class="mx-auto px-2 py-1 rounded-full"
-                :class="value > 0 ? 'bg-green-lighter text-green-dark' : 'bg-red-lighter text-red-dark'"
+                :class="value > 0 ? 'bg-green-lightest text-green-dark' : 'bg-red-lightest text-red-dark'"
                 v-text="value">
 
                 </span>
@@ -60,8 +60,8 @@
 <script>
   import DataTable from './Data/Table';
   import JsonFetch from './Json/Fetch';
+  import Pagination from './Pagination';
   import JsonUpdate from './Json/Update';
-  import Pagination from '@/components/Pagination';
 
   export default {
     components: {

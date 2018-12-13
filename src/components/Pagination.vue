@@ -7,7 +7,7 @@
           class="btn"
           :class="{ 'btn-disabled': current_page <= 1 }"
           @click.prevent="go(current_page - 1)">
-          <
+          <IconArrow horizontal />
         </a>
       </li>
       <li>
@@ -16,7 +16,7 @@
           class="btn mr-12"
           :class="{ 'btn-disabled': current_page >= last_page }"
           @click.prevent="go(current_page + 1)">
-          >
+          <IconArrow horizontal flip />
         </a>
       </li>
       <li
@@ -35,7 +35,13 @@
 </template>
 
 <script>
+  import IconArrow from '@/components/Icon/Arrow';
+
   export default {
+    components: {
+      IconArrow,
+    },
+
     props: {
       total: {
         type: Number,
@@ -137,6 +143,6 @@
   }
 
   .btn-active {
-    @apply bg-blue-lighter text-blue-darker
+    @apply bg-blue-lightest text-blue-dark
   }
 </style>
