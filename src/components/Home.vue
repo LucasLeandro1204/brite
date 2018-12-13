@@ -28,7 +28,19 @@
           }">
 
           <template slot="date" slot-scope="{ value }">
-            {{ value.toLocaleDateString() }}
+            <span class="px-6 py-2" v-text="value.toLocaleDateString()"></span>
+          </template>
+
+          <template slot="amount" slot-scope="{ value }">
+            <span
+              class="flex text-xs font-bold">
+              <span
+                class="mx-auto px-2 py-1 rounded-full"
+                :class="value > 0 ? 'bg-green-lighter text-green-dark' : 'bg-red-lighter text-red-dark'"
+                v-text="value">
+
+                </span>
+              </span>
           </template>
         </DataTable>
 
