@@ -1,15 +1,70 @@
 <template>
-  <div class="font-sans bg-grey-lightest min-h-screen text-black" id="app">
-    <Home />
+  <div class="font-sans bg-grey-lightest min-h-screen text-black px-8 py-4" id="app">
+    <header class="mb-4 flex flex-col sm:flex-row sm:items-center max-w-2xl mx-auto">
+      <h1 class="font-thin mb-2 sm:mb-0">Payments</h1>
+
+      <input class="rounded border-grey-light sm:ml-4 py-1 px-2 border-2" placeholder="Search data" v-model="search">
+    </header>
+
+    <main>
+      <TablePaginated
+        tag="section"
+        class="max-w-2xl mx-auto"
+        path="payments"
+        :fields="fields"
+        :search="search"
+        />
+    </main>
   </div>
 </template>
 
 <script>
-  import Home from './components/Home';
+  import TablePaginated from '@/components/Table/Paginated';
 
   export default {
     components: {
-      Home,
+      TablePaginated,
+    },
+
+    data: () => ({
+      search: '',
+    }),
+
+    computed: {
+      fields () {
+        return [
+          {
+            key: 'id',
+            label: 'ID',
+            width: '30%',
+          },
+          {
+            key: 'name',
+            label: 'NAME',
+            width: '15%',
+          },
+          {
+            key: 'description',
+            label: 'DESCRIPTION',
+            width: '35%',
+          },
+          {
+            type: Date,
+            key: 'date',
+            width: '10%',
+            label: 'DATE',
+            sortable: true,
+            searchable: false,
+          },
+          {
+            key: 'amount',
+            label: 'AMOUNT',
+            width: '10%',
+            sortable: true,
+            type: Number,
+          },
+        ]
+      },
     },
   };
 </script>
