@@ -253,11 +253,15 @@
       },
 
       /**
-       * Index single document.
+       * Index one or more documents.
        */
       INDEX (document) {
         if (this.searcher) {
-          this.searcher.addDocument(document);
+          this.searcher.addDocuments(
+            Array.isArray(document)
+              ? document
+              : [ document ]
+          );
         }
 
         this.FETCH();
