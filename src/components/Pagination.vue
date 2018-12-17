@@ -80,10 +80,6 @@
        * Sorry.
        */
       pages () {
-        if (this.last_page <= this.limit + 2) {
-          return this.last_page;
-        }
-
         const pages = {};
         const half_range = Math.floor(this.limit / 2);
 
@@ -103,7 +99,9 @@
         }
 
         for (let index = low_range; index <= high_range && index <= this.last_page - 1; index++) {
-          pages[index] = index + 1;
+          if (index !== -1) {
+            pages[index] = index + 1;
+          }
         }
 
         if (low_range > this.margin) {

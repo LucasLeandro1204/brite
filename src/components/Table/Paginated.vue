@@ -2,9 +2,9 @@
   <JsonFetch
     v-bind="{
       path,
+      sort,
       fields,
       search,
-      sort,
     }"
     >
     <component :is="tag" slot-scope="{ data, loading, INDEX }">
