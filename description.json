@@ -1,0 +1,12 @@
+{
+  "name": "Lucas Leandro Ramos",
+  "about": "A simple guy that does complex stuff in a simple way",
+  "location": {
+    "country": "Brazil",
+    "city": "Florianópolis",
+    "region": "Santa Catarina"
+  },
+  "stack": [
+    "Laravel", "Vue", "Node", "React"
+  ]
+}
