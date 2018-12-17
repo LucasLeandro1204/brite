@@ -12,7 +12,7 @@ To style the components I used Tailwindcss, which is a incredible powerfull and 
 
 About 12 hours.
 
-Yes, I would refact Fetch Json entirely to make possible to paginate and filter in backend.
+Yes, I would refact Fetch Json entirely to make possible to paginate / filter in backend and add more tests.
 
 #### In what ways would you adapt your component so that it could be used in many different scenarios where a data table is required?
 
