@@ -6,6 +6,8 @@ I did the Fetch / Update components based in how Apollo works. so you have a com
 
 To style the components I used Tailwindcss, which is a incredible powerfull and simple utility-first framwork. He allows me to create beautifull and consistent components. (I do work with SCSS too, whenever is needed).
 
+[Netlify](https://netlify.com) is what I use to host static projects (so this one too), it is a piece of cake =)
+
 ## Follow-up Questions
 
 #### How long did you spend on the test? Would you do anything differently if you had more time?
